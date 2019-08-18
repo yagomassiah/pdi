@@ -1,0 +1,3 @@
+/home/yago/Downloads/estrutura/template_code/CMakeFiles/rebuild_cache.dir
+/home/yago/Downloads/estrutura/template_code/CMakeFiles/Elo_Maluco.dir
+/home/yago/Downloads/estrutura/template_code/CMakeFiles/edit_cache.dir
