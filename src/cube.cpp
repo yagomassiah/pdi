@@ -1,18 +1,21 @@
-// Elo Maluco
-// main.cpp
-// Prof. Giovani Bernardes Vitor
-// ECOI24 - 2019
+/**
+ * @file cube.cpp
+ * @author Felipe Amorim e Yago Massiah
+ * @date August 20, 2019
+ * @brief Este arquivo implementa a classe Cube possibilitando
+ * utilizar programação orientada à objeto para manipular nossos
+ * modelos.
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "cube.hpp"
 
-
-
- 
-
-
-
+/**
+ * No construtor da classe pedimos o centro de massa de cada cubo
+ * e o tamanho da aresta do cubo para então calcularmos as posições
+ * de cada vértice do cubo.
+ */
 Cube::Cube(double xita, double yita, double zeta, double aresta)
 {
 	x = y = z = 0;
@@ -120,6 +123,12 @@ void Cube::transform(void)
 
 
 //---------------------------------------------------------------------
+/**
+ * Neste método utilizamos os vértices já calculados no construtor
+ * para finalmente desenharmos nosso cubo. Também alteramos
+ * a cor de cada lado a cada 4 iterações.
+ */
+
 void Cube::draw()
 {
 

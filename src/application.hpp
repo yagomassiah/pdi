@@ -1,7 +1,9 @@
-// Elo Maluco
-// application.hpp
-// Prof. Giovani Bernardes Vitor
-// ECOI24 - 2019
+/**
+ * @file application.hpp
+ * @author Felipe Amorim e Yago Massiah
+ * @date August 20, 2019
+ * @brief Cabeçalho da classe Application
+*/
 
 #include <iostream>
 #include <vector>

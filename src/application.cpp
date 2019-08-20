@@ -1,7 +1,9 @@
-// Elo Maluco
-// application.cpp
-// Prof. Giovani Bernardes Vitor
-// ECOI24 - 2019
+/**
+ * @file application.cpp
+ * @author Felipe Amorim e Yago Massiah
+ * @date August 20, 2019
+ * @brief Implementação da classe Application
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,11 +22,15 @@ double rotate_y=0;
 double rotate_x=0;
 string value= "oi";
 string estados[4][4];
+
 ///////////////////////////////////////////////////////////////////////
 // Application Class
 Application::Application(int argc, char** argv)
 {
-	
+	/**
+     * Esta função inicializa a tela com o tamanho especificado.
+     */
+
 	glutInit(&argc,argv);
      	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
      	glutInitWindowSize(1280,720);
@@ -40,9 +46,11 @@ Application::~Application()
 {
 }
 //---------------------------------------------------------------------
+
+// TAG = Teste
 void Application::Inicializa (void)
 {   
-    // Define a cor de fundo da janela de visualização como preta
+    /** Define a cor de fundo da janela de visualização como preta*/
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     xf=50.0f;
     yf=50.0f;
@@ -89,6 +97,10 @@ void Application::Inicializa (void)
 //}
 //---------------------------------------------------------------------
 
+/**
+ * Neste método são desenhados a maior parte dos objetos
+ * bem como o eixo de referência.
+ */
 void Application::draw()
 {
      glMatrixMode(GL_MODELVIEW);
@@ -237,6 +249,10 @@ void Application::SpecialKeyHandle(int key, int x, int y)
     
 }
 //---------------------------------------------------------------------
+/**
+ * Neste método atualizamos as variáveis de rotação
+ * "x" e "y" utilizando o a função OpenGL "glutTimerFunc()"
+ */
 void Application::update(int value, void (*func_ptr)(int))
 {	
     rotate_y += 5;
