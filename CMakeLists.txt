@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 2.8)
 
 ################################################################################
 # COMPILER
+#define GLM_ENABLE_EXPERIMENTAL
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
@@ -83,8 +84,8 @@ set(SRCS
     src/main.cpp
     src/application.cpp
     src/Objects.cpp
-    src/cube.cpp
     src/triangle.cpp
+    src/cube.cpp
     src/tinyxml2.cpp
 )
 
