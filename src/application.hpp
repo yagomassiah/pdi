@@ -28,6 +28,7 @@ public:
 	~Application(void);
 
 	void draw();
+	void display();
 	void resize(GLsizei w, GLsizei h);
 	void KeyboardHandle(unsigned char key, int x, int y);
 	void MouseHandle(int button, int state, int x, int y);
