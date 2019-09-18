@@ -15,10 +15,11 @@
 using namespace tinyxml2;
 using namespace std;
 #ifndef XMLCheckResult
-#define XMLCheckResult(a_eResult)                                              \
-  if (a_eResult != XML_SUCCESS) {                                              \
-    printf("Error: %i\n", a_eResult);                                          \
-    return a_eResult;                                                          \
+#define XMLCheckResult(a_eResult)     \
+  if (a_eResult != XML_SUCCESS)       \
+  {                                   \
+    printf("Error: %i\n", a_eResult); \
+    return a_eResult;                 \
   }
 #endif
 
@@ -31,7 +32,8 @@ char y = 'b';
 
 ///////////////////////////////////////////////////////////////////////
 // Application Class
-Application::Application(int argc, char **argv) {
+Application::Application(int argc, char **argv)
+{
   /**
    * Esta função inicializa a tela com o tamanho especificado.
    */
@@ -48,8 +50,39 @@ Application::Application(int argc, char **argv) {
 Application::~Application() {}
 //---------------------------------------------------------------------
 
+//
+void Application::Iluminacao(void)
+{
+  // Light values and coordinates
+  GLfloat whiteLight[] = {0.45f, 0.45f, 0.45f, 1.0f};
+  GLfloat sourceLight[] = {0.25f, 0.25f, 0.25f, 1.0f};
+  GLfloat lightPos[] = {-50.f, 25.0f, 250.0f, 0.0f};
+
+  glEnable(GL_DEPTH_TEST); // Hidden surface removal
+  glFrontFace(GL_CCW);     // Counter clock-wise polygons face out
+
+  // Enable lighting
+  glEnable(GL_LIGHTING);
+
+  // Setup and enable light 0
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, whiteLight);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, sourceLight);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, sourceLight);
+  glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+  glEnable(GL_LIGHT0);
+
+  // Enable color tracking
+  glEnable(GL_COLOR_MATERIAL);
+
+  // Set Material properties to follow glColor values
+  glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+}
+//
+
 // TAG = Teste
-void Application::Inicializa(void) {
+void Application::Inicializa(void)
+{
+  Iluminacao();
   /** Define a cor de fundo da janela de visualização como preta*/
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   xf = 50.0f;
@@ -102,7 +135,8 @@ void Application::display() { glutSwapBuffers(); }
  * Neste método são desenhados a maior parte dos objetos
  * bem como o eixo de referência.
  */
-void Application::draw() {
+void Application::draw()
+{
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   // this->resize(0,0);
@@ -140,7 +174,8 @@ void Application::draw() {
 
   // glPopMatrix();
 
-  if (tc == 'a') {
+  if (tc == 'a')
+  {
     glPushMatrix();
     b.draw();
     c.draw();
@@ -151,7 +186,8 @@ void Application::draw() {
     a.draw();
     glPopMatrix();
   }
-  if (tc == 'b') {
+  if (tc == 'b')
+  {
     glPushMatrix();
     c.draw();
     a.draw();
@@ -162,7 +198,8 @@ void Application::draw() {
     b.draw();
     glPopMatrix();
   }
-  if (tc == 'c') {
+  if (tc == 'c')
+  {
     glPushMatrix();
     b.draw();
     a.draw();
@@ -175,25 +212,27 @@ void Application::draw() {
   }
   glPopMatrix();
   for (list<Objects *>::const_iterator it = list_.begin(); it != list_.end();
-       ++it) {
+       ++it)
+  {
     (*it)->draw();
   }
 
-  glFlush();
+  //glFlush();
   glutSwapBuffers();
 }
 
 //---------------------------------------------------------------------
-void Application::resize(GLsizei w, GLsizei h) {
+void Application::resize(GLsizei w, GLsizei h)
+{
   // Especifica as dimensões da Viewport
   glViewport(0, 0, w, h);
   view_w = w;
   view_h = h;
 
   // Inicializa o sistema de coordenadas
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(-win, win, -win, win);
+  // glMatrixMode(GL_PROJECTION);
+  // glLoadIdentity();
+  // gluOrtho2D(-win, win, -win, win);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -206,8 +245,10 @@ void Application::resize(GLsizei w, GLsizei h) {
 }
 
 //---------------------------------------------------------------------
-void Application::KeyboardHandle(unsigned char key, int x, int y) {
-  switch (key) {
+void Application::KeyboardHandle(unsigned char key, int x, int y)
+{
+  switch (key)
+  {
   case 'R':
   case 'r': // muda a cor corrente para vermelho
     glColor3f(1.0f, 0.0f, 0.0f);
@@ -228,7 +269,8 @@ void Application::KeyboardHandle(unsigned char key, int x, int y) {
 
     time++;
     for (list<Objects *>::const_iterator it = list_.begin(); it != list_.end();
-         ++it) {
+         ++it)
+    {
       (*it)->update(time);
     }
     break;
@@ -239,9 +281,11 @@ void Application::KeyboardHandle(unsigned char key, int x, int y) {
 }
 
 //---------------------------------------------------------------------
-void Application::MouseHandle(int button, int state, int x, int y) {
+void Application::MouseHandle(int button, int state, int x, int y)
+{
   if (button == GLUT_LEFT_BUTTON)
-    if (state == GLUT_DOWN) {
+    if (state == GLUT_DOWN)
+    {
 
       //   Troca o tamanho do retângulo, que vai do centro da
       //   janela até a posição onde o usuário clicou com o mouse
@@ -251,10 +295,13 @@ void Application::MouseHandle(int button, int state, int x, int y) {
 }
 
 //---------------------------------------------------------------------
-void Application::SpecialKeyHandle(int key, int x, int y) {
-  if (key == GLUT_KEY_UP) {
+void Application::SpecialKeyHandle(int key, int x, int y)
+{
+  if (key == GLUT_KEY_UP)
+  {
 
-    for (int i = 0; i < 90; i += 2) {
+    for (int i = 0; i < 90; i += 2)
+    {
       rotate_y += 2;
       this->draw();
     }
@@ -265,8 +312,10 @@ void Application::SpecialKeyHandle(int key, int x, int y) {
     // gluOrtho2D (-win, win, -win, win);
     // insert_object();
   }
-  if (key == GLUT_KEY_DOWN) {
-    switch (tc) {
+  if (key == GLUT_KEY_DOWN)
+  {
+    switch (tc)
+    {
     case 'a':
       tc = 'b';
       break;
@@ -289,14 +338,16 @@ void Application::SpecialKeyHandle(int key, int x, int y) {
  * Neste método atualizamos as variáveis de rotação
  * "x" e "y" utilizando o a função OpenGL "glutTimerFunc()"
  */
-void Application::update(int value, void (*func_ptr)(int)) {
+void Application::update(int value, void (*func_ptr)(int))
+{
   // rotate_y += 5;
   // rotate_x += 5;
   // glutPostRedisplay();
   glutTimerFunc(30, func_ptr, time);
 }
 //---------------------------------------------------------------------
-bool Application::insert_object(void) {
+bool Application::insert_object(void)
+{
   Cube *obj;
   // Objects * node = reinterpret_cast<Objects*>(obj);
   list_.push_back(new Cube(10, 10, 10, 3));

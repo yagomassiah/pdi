@@ -35,6 +35,8 @@ public:
 	void SpecialKeyHandle(int key, int x, int y);
 	void update(int value, void (*func_ptr)(int));
 
+	void Iluminacao(void); // Inicializa as configurações de luz
+
 private:
 
 	int time;
@@ -48,7 +50,7 @@ private:
 
 	list<Objects*> list_;
 
-private:
+
 	void Inicializa (void);
 	bool insert_object(void);
 	
