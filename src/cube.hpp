@@ -13,11 +13,11 @@
 #include <string>
 #include <GL/glut.h>
 #include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/string_cast.hpp>
+//#include <glm/gtc/type_ptr.hpp>
+//#include <glm/gtx/string_cast.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/transform.hpp>
+//#include <glm/gtx/transform.hpp>
 
 #ifndef __CUBE_HPP__
 #define __CUBE_HPP__
@@ -36,6 +36,9 @@ public:
 	void colision(int x, int y);
 	void readXml();
 	void parseXml();
+	void rotateRight();
+	void rotate(double x, double y, double z, double aresta);
+	double rotateY = 0;
 
 private:
 

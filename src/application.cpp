@@ -15,25 +15,28 @@
 using namespace tinyxml2;
 using namespace std;
 #ifndef XMLCheckResult
-#define XMLCheckResult(a_eResult)     \
-  if (a_eResult != XML_SUCCESS)       \
-  {                                   \
-    printf("Error: %i\n", a_eResult); \
-    return a_eResult;                 \
+#define XMLCheckResult(a_eResult)                                              \
+  if (a_eResult != XML_SUCCESS) {                                              \
+    printf("Error: %i\n", a_eResult);                                          \
+    return a_eResult;                                                          \
   }
 #endif
-
 double rotate_y = 0;
+double rotate_yA = 0;
+double rotate_yB = 0;
 double rotate_x = 0;
 string value = "oi";
 string estados[4][4];
 char tc = 'a';
 char y = 'b';
+Cube a = Cube(0, 0, 0, 6);
+Cube b = Cube(0, 6, 0, 6);
+Cube c = Cube(0, 12, 0, 6);
+Cube d = Cube(0, 18, 0, 6);
 
 ///////////////////////////////////////////////////////////////////////
 // Application Class
-Application::Application(int argc, char **argv)
-{
+Application::Application(int argc, char **argv) {
   /**
    * Esta função inicializa a tela com o tamanho especificado.
    */
@@ -51,8 +54,7 @@ Application::~Application() {}
 //---------------------------------------------------------------------
 
 //
-void Application::Iluminacao(void)
-{
+void Application::Iluminacao(void) {
   // Light values and coordinates
   GLfloat whiteLight[] = {0.45f, 0.45f, 0.45f, 1.0f};
   GLfloat sourceLight[] = {0.25f, 0.25f, 0.25f, 1.0f};
@@ -80,9 +82,9 @@ void Application::Iluminacao(void)
 //
 
 // TAG = Teste
-void Application::Inicializa(void)
-{
+void Application::Inicializa(void) {
   Iluminacao();
+
   /** Define a cor de fundo da janela de visualização como preta*/
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   xf = 50.0f;
@@ -122,15 +124,11 @@ void Application::display() { glutSwapBuffers(); }
  * Neste método são desenhados a maior parte dos objetos
  * bem como o eixo de referência.
  */
-void Application::draw()
-{
+void Application::draw() {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  // this->resize(0,0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
   glLineWidth(2.0f);
-
   glBegin(GL_LINES);
   glColor3f(1, 0, 0);
   glVertex3f(-15, 0, 0);
@@ -148,69 +146,64 @@ void Application::draw()
   glEnd();
 
   glPushMatrix();
+  glRotatef(rotate_yA, 0.0, 1.0, 0.0);
 
-  // glPopMatrix();
-  // glPushMatrix();
-  // glRotatef(rotate_x, 1.0, 0.0, 0.0);
-  // glRotatef(rotate_y, 0.0, 1.0, 0.0);
-  Cube a = Cube(0, 0, 0, 6);
-  Cube b = Cube(0, 6, 0, 6);
-  Cube c = Cube(0, 12, 0, 6);
-
+  a.draw();
   glPopMatrix();
 
+  glPushMatrix();
+  glRotatef(rotate_yB, 0.0, 1.0, 0.0);
+
+  b.draw();
+  glPopMatrix();
+
+  // b.draw();
+  c.draw();
+  // a.rotateRight();
   // glPopMatrix();
 
-  if (tc == 'a')
-  {
-    glPushMatrix();
-    b.draw();
-    c.draw();
-    glPopMatrix();
-    glPushMatrix();
-    glRotatef(rotate_x, 1.0, 0.0, 0.0);
-    glRotatef(rotate_y, 0.0, 1.0, 0.0);
-    a.draw();
-    glPopMatrix();
-  }
-  if (tc == 'b')
-  {
-    glPushMatrix();
-    c.draw();
-    a.draw();
-    glPopMatrix();
-    glPushMatrix();
-    glRotatef(rotate_x, 1.0, 0.0, 0.0);
-    glRotatef(rotate_y, 0.0, 1.0, 0.0);
-    b.draw();
-    glPopMatrix();
-  }
-  if (tc == 'c')
-  {
-    glPushMatrix();
-    b.draw();
-    a.draw();
-    glPopMatrix();
-    glPushMatrix();
-    // glRotatef(rotate_x, 1.0, 0.0, 0.0);
-    glRotatef(rotate_y, 0.0, 1.0, 0.0);
-    c.draw();
-    glPopMatrix();
-  }
-  glPopMatrix();
-  for (list<Objects *>::const_iterator it = list_.begin(); it != list_.end();
-       ++it)
-  {
-    (*it)->draw();
-  }
+  // if (tc == 'a') {
+  //   glPushMatrix();
+  //   b.draw();
+  //   c.draw();
+  //   glPopMatrix();
+  //   glPushMatrix();
+  //   glRotatef(rotate_x, 1.0, 0.0, 0.0);
+  //   glRotatef(rotate_y, 0.0, 1.0, 0.0);
+  //   a.draw();
+  //   glPopMatrix();
+  //   // a.rotateRight();
+  // }
+  // if (tc == 'b') {
+  //   glPushMatrix();
+  //   c.draw();
+  //   a.draw();
+  //   glPopMatrix();
+  //   glPushMatrix();
+  //   glRotatef(rotate_x, 1.0, 0.0, 0.0);
+  //   glRotatef(rotate_y, 0.0, 1.0, 0.0);
+  //   b.draw();
+  //   glPopMatrix();
+  // }
+  // if (tc == 'c') {
+  //   glPushMatrix();
+  //   b.draw();
+  //   a.draw();
+  //   glPopMatrix();
+  //   glPushMatrix();
+  //   // glRotatef(rotate_x, 1.0, 0.0, 0.0);
+  //   glRotatef(rotate_y, 0.0, 1.0, 0.0);
+  //   c.draw();
+  //   glPopMatrix();
+  // }
+  // glPopMatrix();
 
-  //glFlush();
+  // glFlush();
   glutSwapBuffers();
 }
 
 //---------------------------------------------------------------------
-void Application::resize(GLsizei w, GLsizei h)
-{
+void Application::resize(GLsizei w, GLsizei h) {
   // Especifica as dimensões da Viewport
   glViewport(0, 0, w, h);
   view_w = w;
@@ -232,10 +225,8 @@ void Application::resize(GLsizei w, GLsizei h)
 }
 
 //---------------------------------------------------------------------
-void Application::KeyboardHandle(unsigned char key, int x, int y)
-{
-  switch (key)
-  {
+void Application::KeyboardHandle(unsigned char key, int x, int y) {
+  switch (key) {
   case 'R':
   case 'r': // muda a cor corrente para vermelho
     glColor3f(1.0f, 0.0f, 0.0f);
@@ -256,8 +247,7 @@ void Application::KeyboardHandle(unsigned char key, int x, int y)
 
     time++;
     for (list<Objects *>::const_iterator it = list_.begin(); it != list_.end();
-         ++it)
-    {
+         ++it) {
       (*it)->update(time);
     }
     break;
@@ -268,11 +258,9 @@ void Application::KeyboardHandle(unsigned char key, int x, int y)
 }
 
 //---------------------------------------------------------------------
-void Application::MouseHandle(int button, int state, int x, int y)
-{
+void Application::MouseHandle(int button, int state, int x, int y) {
   if (button == GLUT_LEFT_BUTTON)
-    if (state == GLUT_DOWN)
-    {
+    if (state == GLUT_DOWN) {
 
       //   Troca o tamanho do retângulo, que vai do centro da
       //   janela até a posição onde o usuário clicou com o mouse
@@ -282,27 +270,35 @@ void Application::MouseHandle(int button, int state, int x, int y)
 }
 
 //---------------------------------------------------------------------
-void Application::SpecialKeyHandle(int key, int x, int y)
-{
-  if (key == GLUT_KEY_UP)
-  {
-
-    for (int i = 0; i < 90; i += 2)
-    {
-      rotate_y += 2;
-      this->draw();
+void Application::SpecialKeyHandle(int key, int x, int y) {
+  if (key == GLUT_KEY_UP) {
+    // a.rotateRight();
+    // this->draw();
+    // //a.draw();
+    // this->draw();
+    // a.rotateRight();
+    // this->draw();
+    cout << "SOMETHING";
+    if (tc == 'a') {
+      for (int i = 0; i < 90; i += 2) {
+        rotate_yA += 2;
+        this->draw();
+      }
     }
-
+    if (tc == 'b') {
+      for (int i = 0; i < 90; i += 2) {
+        rotate_yB += 2;
+        this->draw();
+      }
+    }
     // win -= 20;
     // glMatrixMode(GL_PROJECTION);
     // glLoadIdentity();
     // gluOrtho2D (-win, win, -win, win);
     // insert_object();
   }
-  if (key == GLUT_KEY_DOWN)
-  {
-    switch (tc)
-    {
+  if (key == GLUT_KEY_DOWN) {
+    switch (tc) {
     case 'a':
       tc = 'b';
       break;
@@ -325,16 +321,14 @@ void Application::SpecialKeyHandle(int key, int x, int y)
  * Neste método atualizamos as variáveis de rotação
  * "x" e "y" utilizando o a função OpenGL "glutTimerFunc()"
  */
-void Application::update(int value, void (*func_ptr)(int))
-{
+void Application::update(int value, void (*func_ptr)(int)) {
   // rotate_y += 5;
   // rotate_x += 5;
   // glutPostRedisplay();
   glutTimerFunc(30, func_ptr, time);
 }
 //---------------------------------------------------------------------
-bool Application::insert_object(void)
-{
+bool Application::insert_object(void) {
   Cube *obj;
   // Objects * node = reinterpret_cast<Objects*>(obj);
   list_.push_back(new Cube(10, 10, 10, 3));

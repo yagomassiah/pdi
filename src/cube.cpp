@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "cube.hpp"
 
+
 /**
  * No construtor da classe pedimos o centro de massa de cada cubo
  * e o tamanho da aresta do cubo para então calcularmos as posições
@@ -83,6 +84,54 @@ void Cube::colision(int x, int y)
 {
 }
 
+void Cube::rotate(double xita, double yita, double zeta, double aresta){
+		x = y = z = 0;
+	theta = 0.0f;
+
+	double fixo = aresta / 2;
+	//lado z fixo -
+	points_base[0] = glm::vec3(xita - fixo, yita - fixo, zeta - fixo);
+	points_base[1] = glm::vec3(xita + fixo, yita - fixo, zeta - fixo);
+	points_base[2] = glm::vec3(xita + fixo, yita + fixo, zeta - fixo);
+	points_base[3] = glm::vec3(xita - fixo, yita + fixo, zeta - fixo);
+
+	//lado z fixo +
+	points_base[4] = glm::vec3(xita - fixo, yita - fixo, zeta + fixo);
+	points_base[5] = glm::vec3(xita + fixo, yita - fixo, zeta + fixo);
+	points_base[6] = glm::vec3(xita + fixo, yita + fixo, zeta + fixo);
+	points_base[7] = glm::vec3(xita - fixo, yita + fixo, zeta + fixo);
+
+	//lado y fixo -
+	points_base[8] = glm::vec3(xita - fixo, yita - fixo, zeta - fixo);
+	points_base[9] = glm::vec3(xita + fixo, yita - fixo, zeta - fixo);
+	points_base[10] = glm::vec3(xita + fixo, yita - fixo, zeta + fixo);
+	points_base[11] = glm::vec3(xita - fixo, yita - fixo, zeta + fixo);
+
+	//lado y fixo -
+	points_base[12] = glm::vec3(xita - fixo, yita + fixo, zeta - fixo);
+	points_base[13] = glm::vec3(xita + fixo, yita + fixo, zeta - fixo);
+	points_base[14] = glm::vec3(xita + fixo, yita + fixo, zeta + fixo);
+	points_base[15] = glm::vec3(xita - fixo, yita + fixo, zeta + fixo);
+
+	//lado x fixo -
+	points_base[16] = glm::vec3(xita - fixo, yita - fixo, zeta - fixo);
+	points_base[17] = glm::vec3(xita - fixo, yita + fixo, zeta - fixo);
+	points_base[18] = glm::vec3(xita - fixo, yita + fixo, zeta + fixo);
+	points_base[19] = glm::vec3(xita - fixo, yita - fixo, zeta + fixo);
+
+	//lado x fixo +
+	points_base[20] = glm::vec3(xita + fixo, yita - fixo, zeta - fixo);
+	points_base[21] = glm::vec3(xita + fixo, yita + fixo, zeta - fixo);
+	points_base[22] = glm::vec3(xita + fixo, yita + fixo, zeta + fixo);
+	points_base[23] = glm::vec3(xita + fixo, yita - fixo, zeta + fixo);
+
+	// points_base[1] = glm::vec3( 15.0f,  0.0f , 1.0f);
+	// points_base[2] = glm::vec3( 0.0f,  30.0f , 1.0f) ;
+
+	for (int i = 0; i < 24; i++)
+		points[i] = points_base[i];
+}
+
 //---------------------------------------------------------------------
 void Cube::transform(void)
 {
@@ -116,6 +165,8 @@ void Cube::draw()
 	glLineWidth(3.0f);
 	//glColor3f(0.5f, 0.6f, 0.4f);
 	glColor3f(0.0, 1.0, 0.3);
+	  glEnable (GL_TEXTURE_2D); /* enable texture mapping */
+    glBindTexture (GL_TEXTURE_2D, 13);
 	for (int i = 0; i < 23; i)
 	{
 
@@ -141,7 +192,7 @@ void Cube::draw()
 		i++;
 		glVertex3f(points[i].x, points[i].y, points[i].z);
 		i++;
-
+glDisable (GL_TEXTURE_2D); 
 		glEnd();
 	}
 }
@@ -149,6 +200,25 @@ void Cube::draw()
 ///
 /// A matriz xml foi adicionada ao objeto contendo as cores e a ordem. Ela é instanciada durante a leitura do arquivo
 ///
+void Cube::rotateRight(){
+	for (int i = 0; i < 90; i += 2)
+    {
+	//	glLoadIdentity();
+      this->rotateY += 2; 
+	glPushMatrix();
+	cout << this->rotateY;
+     glRotatef(this->rotateY, 0.0, 1.0, 0.0);
+	//this->draw();
+    glPopMatrix();
+	// glFlush();
+  
+	 //glutSwapBuffers();
+	 this->draw();
+    }
+	glutSwapBuffers();
+	 
+/// glutSwapBuffers();
+}
 void Cube::readXml()
 {
 	tinyxml2::XMLDocument doc;
