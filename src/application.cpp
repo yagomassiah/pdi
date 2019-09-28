@@ -98,19 +98,6 @@ void Application::Inicializa(void)
 
   // XMLError eResult = xmlDoc.SaveFile("Teste.xml");
 
-  XMLDocument doc;
-
-  XMLError eResult2 = doc.LoadFile("./data/EloMaluco_estadoAtual_exemplo.xml");
-
-  doc.Print();
-  XMLElement *pElement =
-      doc.FirstChildElement("EloMaluco")->FirstChildElement("EstadoAtual");
-  XMLElement *linhas = pElement->FirstChildElement("row");
-  pElement = pElement->FirstChildElement("row")->FirstChildElement("col");
-  cout
-      << linhas->NextSiblingElement("row")->FirstChildElement("col")->GetText();
-  value = pElement->GetText();
-
   // pRoot1 = doc.NextSibling();
   //    doc.Print();
   // std::cout<<pRoot2;

@@ -8,9 +8,21 @@
 
 
 #include "Objects.hpp"
+#include "tinyxml2.h"
+#include <iostream>
+#include <string>
+#include <GL/glut.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
 
 #ifndef __CUBE_HPP__
 #define __CUBE_HPP__
+
+using namespace std;
 
 /////////////////////////////////////////////////////////////
 class Cube: public Objects
@@ -22,6 +34,8 @@ public:
 	void draw();
 	void update(int value);
 	void colision(int x, int y);
+	void readXml();
+	void parseXml();
 
 private:
 
@@ -30,9 +44,10 @@ private:
 	
 	glm::vec3 points_base[24];
 	glm::vec3 points[24];
-
-
-private:
+	string xml[4][4];
+    glm::vec3 cores[4][4];
+	string posicao[4][4];
+    int blank[1][2];
 
 	void transform(void);
 };
