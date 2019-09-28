@@ -23,7 +23,7 @@ using namespace std;
 #endif
 double rotate_y = 0;
 double rotate_yA = 0;
-double rotate_yB = 0;
+double rotate_yD = 0;
 double rotate_x = 0;
 string value = "oi";
 string estados[4][4];
@@ -152,13 +152,15 @@ void Application::draw() {
   glPopMatrix();
 
   glPushMatrix();
-  glRotatef(rotate_yB, 0.0, 1.0, 0.0);
+  glRotatef(rotate_yD, 0.0, 1.0, 0.0);
 
-  b.draw();
+  d.draw();
   glPopMatrix();
+  
 
   // b.draw();
   c.draw();
+  b.draw();
   // a.rotateRight();
   // glPopMatrix();
 
@@ -218,7 +220,7 @@ void Application::resize(GLsizei w, GLsizei h) {
   glLoadIdentity();
   gluPerspective(60, (GLdouble)view_w / view_h, 1, 100);
 
-  double rate = 2.5;
+  double rate = 3.5;
   gluLookAt(rate * 10, rate * 8, rate * 7, 0, 0, 0, 0, 1, 0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -278,16 +280,16 @@ void Application::SpecialKeyHandle(int key, int x, int y) {
     // this->draw();
     // a.rotateRight();
     // this->draw();
-    cout << "SOMETHING";
+   
     if (tc == 'a') {
       for (int i = 0; i < 90; i += 2) {
         rotate_yA += 2;
         this->draw();
       }
     }
-    if (tc == 'b') {
+    if (tc == 'd') {
       for (int i = 0; i < 90; i += 2) {
-        rotate_yB += 2;
+        rotate_yD += 2;
         this->draw();
       }
     }
@@ -300,14 +302,12 @@ void Application::SpecialKeyHandle(int key, int x, int y) {
   if (key == GLUT_KEY_DOWN) {
     switch (tc) {
     case 'a':
-      tc = 'b';
+      tc = 'd';
       break;
-    case 'b':
-      tc = 'c';
-      break;
-    case 'c':
+    case 'd':
       tc = 'a';
       break;
+
     }
     // glutPostRedisplay();
     //    win += 20;
